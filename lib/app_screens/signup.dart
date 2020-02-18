@@ -142,7 +142,7 @@ class _SignupState extends State<Signup> implements LoginPageContract {
     });
     var db = new DatabaseHelper();
     await db.saveUser(user);
-    Navigator.pop(context);
+    Navigator.of(context).pushNamed("/n");
   }
 }
 Widget getImageAsset() {
