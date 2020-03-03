@@ -65,7 +65,6 @@ class _LocationState extends State<Location> {
                child:Text(
                _contact == null ? 'No contact selected.' : _contact.toString(),
                ),
-
              ),
              Padding (
                padding: EdgeInsets.only(top: 20.0, bottom: 20.0),

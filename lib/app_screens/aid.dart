@@ -17,9 +17,7 @@ class Aid extends StatelessWidget {
       withLocalStorage: true,
     );
 
-
   }
-
 
 }
 
