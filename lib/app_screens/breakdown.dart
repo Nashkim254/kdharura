@@ -23,7 +23,6 @@ class _BreakdownState extends State <Breakdown> {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
           primaryColor: Colors.teal,
-          brightness: Brightness.light,
           accentColor: Colors.cyanAccent
       ),
       home: Scaffold(

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -14,7 +15,7 @@ class Accident extends StatefulWidget{
 }
 
 class _AccidentState extends State <Accident> {
-  GoogleMapController mapController;
+  Completer<GoogleMapController> _controller = Completer();
   String searchAddr;
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,6 @@ class _AccidentState extends State <Accident> {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
           primaryColor: Colors.teal,
-          brightness: Brightness.light,
           accentColor: Colors.cyanAccent
       ),
       home: Scaffold(
@@ -42,7 +42,9 @@ class _AccidentState extends State <Accident> {
           children: <Widget>[
             GoogleMap(
               onMapCreated: onMapCreated,
-              initialCameraPosition: CameraPosition(target: LatLng(40.7128, -74.0060),zoom: 10.0),
+              initialCameraPosition: CameraPosition(
+                  target: LatLng(40.7128, -74.0060),
+                  zoom: 5.0),
             )
           ],
         ),
@@ -52,7 +54,10 @@ class _AccidentState extends State <Accident> {
 
   void onMapCreated( controller) {
     setState(() {
-      mapController = controller;
+          // ignore: unnecessary_statements
+          (GoogleMapController controller) {
+            _controller.complete(controller);
+          };
     });
   }
 }
