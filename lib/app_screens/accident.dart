@@ -15,8 +15,19 @@ class Accident extends StatefulWidget{
 }
 
 class _AccidentState extends State <Accident> {
-  Completer<GoogleMapController> _controller = Completer();
-  String searchAddr;
+  GoogleMapController mapController;
+  bool mapToggle = false;
+  var currentLocation;
+  void initState() {
+    super.initState();
+    Geolocator().getCurrentPosition().then((currloc) {
+      setState(() {
+        currentLocation = currloc;
+        mapToggle = true;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -38,26 +49,37 @@ class _AccidentState extends State <Accident> {
           title: Text('Police'),
 
         ),
-        body: Stack(
-          children: <Widget>[
-            GoogleMap(
-              onMapCreated: onMapCreated,
-              initialCameraPosition: CameraPosition(
-                  target: LatLng(40.7128, -74.0060),
-                  zoom: 5.0),
-            )
-          ],
-        ),
-      ),
+        body: Column(
+            children: <Widget>[
+              Stack(
+                  children: <Widget>[
+                    Container(
+                        height: MediaQuery.of(context).size.height - 80.0,
+                        width: double.infinity,
+                        child: mapToggle
+                            ? GoogleMap(
+                            onMapCreated: onMapCreated,
+                            initialCameraPosition: CameraPosition(
+                                target: LatLng(currentLocation.latitude, currentLocation.longitude),
+                                zoom: 10.0)
+                        )
+                            : Center(
+                            child: Text(
+                              'Loading.. Please wait..',
+                              style: TextStyle(fontSize: 20.0),
+                            )),
+                    ),
+                  ]
+              ),
+            ]
+        )
+      )
     );
   }
 
-  void onMapCreated( controller) {
+  void onMapCreated(GoogleMapController controller) {
     setState(() {
-          // ignore: unnecessary_statements
-          (GoogleMapController controller) {
-            _controller.complete(controller);
-          };
+      mapController = controller;
     });
   }
 }

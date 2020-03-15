@@ -1,6 +1,7 @@
 
 import 'package:dharura_app/feedback.dart';
 import 'package:dharura_app/pages/login/login_page.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'app_screens/about.dart';
@@ -14,6 +15,9 @@ import 'app_screens/help.dart';
 import 'app_screens/location.dart';
 import 'app_screens/settings.dart';
 import 'app_screens/signup.dart';
+import 'package:dharura_app/services/auth_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:async';
 
 void main () => runApp(MyApp());
 
@@ -51,8 +55,21 @@ class MyApp extends StatelessWidget{
   }
 }
 
-class HomePage  extends StatelessWidget{
+class HomePage  extends StatefulWidget{
   static const String routeName='/';
+  HomePage({Key key, this.auth, this.userId, this.logoutCallback})
+      : super(key: key);
+
+  final BaseAuth auth;
+  final VoidCallback logoutCallback;
+  final String userId;
+  @override
+  State<StatefulWidget> createState() => new _HomePageState();
+}
+class _HomePageState extends State<HomePage> {
+
+  final FirebaseDatabase _database = FirebaseDatabase.instance;
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
