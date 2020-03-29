@@ -1,3 +1,4 @@
+import 'package:dharura_app/app_screens/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:dharura_app/app_screens/signup.dart';
 import 'package:dharura_app/services/auth_service.dart';
@@ -69,8 +70,8 @@ class _RootPageState extends State<RootPage> {
       case AuthStatus.NOT_DETERMINED:
         return buildWaitingScreen();
         break;
-      /*case AuthStatus.NOT_LOGGED_IN:
-        return Signup(
+      case AuthStatus.NOT_LOGGED_IN:
+        /*return Signup(
           auth: widget.auth,
           loginCallback: loginCallback,
         );
