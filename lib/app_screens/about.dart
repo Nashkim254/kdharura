@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_database/ui/firebase_animated_list.dart';
-import 'package:firebase_core/firebase_core.dart';
- final FirebaseApp app = FirebaseApp(
-    name: 'dharura-app-1579329438257',
-);
+
 class About extends StatefulWidget {
   final String title;
 

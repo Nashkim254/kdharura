@@ -1,24 +1,14 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:dharura_app/services/auth_service.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'dart:async';
+
 
 class HomePage  extends StatefulWidget{
   static const String routeName='/';
-  HomePage({Key key, this.auth, this.userId, this.logoutCallback})
-      : super(key: key);
-
-  final BaseAuth auth;
-  final VoidCallback logoutCallback;
-  final String userId;
   @override
   State<StatefulWidget> createState() => new _HomePageState();
 }
 class _HomePageState extends State<HomePage> {
 
-  final FirebaseDatabase _database = FirebaseDatabase.instance;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override

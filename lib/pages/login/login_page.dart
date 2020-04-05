@@ -53,12 +53,6 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
         home: Scaffold(
             resizeToAvoidBottomPadding: false,
             appBar: AppBar(
-              leading: IconButton(
-                icon: Icon(Icons.arrow_back),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
               title: Text('Login'),
             ),
             key: scaffoldKey,
@@ -100,16 +94,6 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
                                   borderRadius: BorderRadius.circular(5.0))),
                         ),
                       ),
-                      Container(
-                        child: Row (
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            Text('Forgotten password?',
-                              style: TextStyle(color: Theme.of(context).primaryColor),
-                            ),
-                          ],
-                        ),
-                      ),
                       Padding(
                         padding: EdgeInsets.only(top: _minimumPadding,bottom: _minimumPadding),
                         child: Row(
@@ -126,6 +110,26 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
                             ),
                           ],
                         ),
+                      ),
+                      Container(
+                        child: Row (
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            Text('Don\'t have an account?',
+                              style: TextStyle(color: Theme.of(context).primaryColor),
+                            ),
+                          ],
+                        ),
+                      ),
+                      RaisedButton(
+                        color: Theme.of(context).accentColor,
+                        textColor: Theme.of(context).primaryColorDark,
+                        child: Text('Signup',
+                          textScaleFactor: 1.5,
+                        ),
+                        onPressed: (){
+                          Navigator.of(context).pushNamed('/g');
+                        },
                       ),
                     ],
                   ),
@@ -153,12 +157,12 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
     });
     var db = new DatabaseHelper();
     await db.saveUser(user);
-    Navigator.of(context).pushNamed("/");
+    Navigator.of(context).pushReplacementNamed("/home_page");
   }
 }
   Widget getImageAsset() {
     final _minimumPadding = 5.0;
-    AssetImage assetImage = AssetImage('lib/assets/profile.jpg');
+    AssetImage assetImage = AssetImage('lib/assets/flutter-icon.png');
     Image image = Image(
       image: assetImage,
       width: 125.0,

@@ -23,18 +23,14 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
-  firebase_auth:
-  geolocator: ^5.3.0
+  location:
   google_maps_flutter:
   url_launcher:
   contact_picker: ^0.0.2
   intl: ^0.16.1
   flutter_webview_plugin: ^0.3.10+1
   sqflite:
-  path_provider:
-  firebase_database: ^3.1.1
-  firebase_core: any
-  cloud_firestore:
+  path_provider: ^1.6.5
 
 dev_dependencies:
   flutter_test:
@@ -56,6 +52,7 @@ flutter:
   assets:
     - lib/assets/profile.jpg
     - lib/assets/flutter-icon.png
+    - lib/assets/car_icon.png
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
