@@ -1,11 +1,12 @@
 import 'dart:async';
 import 'dart:typed_data';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-class Fire extends StatefulWidget{
 
+class Fire extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -13,20 +14,28 @@ class Fire extends StatefulWidget{
   }
 }
 
-class _FireState extends State <Fire> {
+class _FireState extends State<Fire> {
   StreamSubscription _locationSubscription;
   Location _locationTracker = Location();
   Marker marker;
   Circle circle;
   GoogleMapController _controller;
-
+  TextEditingController locController = TextEditingController();
+  TextEditingController reqController = TextEditingController();
+  void send()async{
+    await FirebaseFirestore.instance.collection('requests').doc().set({
+      "Location": locController.text,
+      "request": reqController.text,
+    });
+  }
   static final CameraPosition initialLocation = CameraPosition(
     target: LatLng(37.42796133580664, -122.085749655962),
     zoom: 14.4746,
   );
 
   Future<Uint8List> getMarker() async {
-    ByteData byteData = await DefaultAssetBundle.of(context).load("lib/assets/car_icon.png");
+    ByteData byteData =
+    await DefaultAssetBundle.of(context).load("lib/assets/car_icon.png");
     return byteData.buffer.asUint8List();
   }
 
@@ -54,7 +63,6 @@ class _FireState extends State <Fire> {
 
   void getCurrentLocation() async {
     try {
-
       Uint8List imageData = await getMarker();
       var location = await _locationTracker.getLocation();
 
@@ -64,18 +72,18 @@ class _FireState extends State <Fire> {
         _locationSubscription.cancel();
       }
 
-
-      _locationSubscription = _locationTracker.onLocationChanged().listen((newLocalData) {
-        if (_controller != null) {
-          _controller.animateCamera(CameraUpdate.newCameraPosition(new CameraPosition(
-              bearing: 192.8334901395799,
-              target: LatLng(newLocalData.latitude, newLocalData.longitude),
-              tilt: 0,
-              zoom: 18.00)));
-          updateMarkerAndCircle(newLocalData, imageData);
-        }
-      });
-
+      _locationSubscription =
+          _locationTracker.onLocationChanged().listen((newLocalData) {
+            if (_controller != null) {
+              _controller.animateCamera(CameraUpdate.newCameraPosition(
+                  new CameraPosition(
+                      bearing: 192.8334901395799,
+                      target: LatLng(newLocalData.latitude, newLocalData.longitude),
+                      tilt: 0,
+                      zoom: 18.00)));
+              updateMarkerAndCircle(newLocalData, imageData);
+            }
+          });
     } on PlatformException catch (e) {
       if (e.code == 'PERMISSION_DENIED') {
         debugPrint("Permission Denied");
@@ -95,17 +103,113 @@ class _FireState extends State <Fire> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Fire'),
+        title: Text('Ambulance'),
       ),
-      body: GoogleMap(
-        mapType: MapType.hybrid,
-        initialCameraPosition: initialLocation,
-        markers: Set.of((marker != null) ? [marker] : []),
-        circles: Set.of((circle != null) ? [circle] : []),
-        onMapCreated: (GoogleMapController controller) {
-          _controller = controller;
-        },
+      body: Stack(
+        children: [
+          GoogleMap(
+            mapType: MapType.hybrid,
+            initialCameraPosition: initialLocation,
+            markers: Set.of((marker != null) ? [marker] : []),
+            circles: Set.of((circle != null) ? [circle] : []),
+            onMapCreated: (GoogleMapController controller) {
+              _controller = controller;
+            },
+          ),
 
+          Positioned(
+            top: 50.0,
+            right: 15.0,
+            left: 15.0,
+            child: Container(
+              height: 50.0,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(3.0),
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.grey,
+                      offset: Offset(1.0, 5.0),
+                      blurRadius: 10,
+                      spreadRadius: 3)
+                ],
+              ),
+              child: TextField(
+                cursorColor: Colors.black,
+                controller: locController,
+                decoration: InputDecoration(
+                  icon: Container(
+                    margin: EdgeInsets.only(left: 20, top: 5),
+                    width: 10,
+                    height: 10,
+                    child: Icon(
+                      Icons.location_on,
+                      color: Colors.black,
+                    ),
+                  ),
+                  hintText: "Location",
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.only(left: 15.0, top: 16.0),
+                ),
+              ),
+            ),
+          ),
+
+          Positioned(
+            top: 105.0,
+            right: 15.0,
+            left: 15.0,
+            child: Container(
+              height: 50.0,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(3.0),
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.grey,
+                      offset: Offset(1.0, 5.0),
+                      blurRadius: 10,
+                      spreadRadius: 3)
+                ],
+              ),
+              child: TextField(
+                cursorColor: Colors.black,
+                controller: reqController,
+                textInputAction: TextInputAction.go,
+                decoration: InputDecoration(
+                  icon: Container(
+                    margin: EdgeInsets.only(left: 20, top: 5),
+                    width: 10,
+                    height: 10,
+                    child: Icon(
+                      Icons.local_taxi,
+                      color: Colors.black,
+                    ),
+                  ),
+                  hintText: "Emergency",
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.only(left: 15.0, top: 16.0),
+                ),
+              ),
+            ),
+          ),
+
+          Positioned(
+            bottom: 105.0,
+            right: 15.0,
+            left: 15.0,
+            child: FlatButton(
+              child: Text('Send Request',
+                style: TextStyle(color: Colors.black, fontSize: 24.0),
+              ),
+              onPressed: (){
+                send();
+              },
+            ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
           child: Icon(Icons.location_searching),
