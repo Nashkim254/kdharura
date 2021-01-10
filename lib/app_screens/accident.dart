@@ -6,8 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 class Accident extends StatefulWidget{
-  final String title;
-  Accident(accident, {Key key, this.title}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {

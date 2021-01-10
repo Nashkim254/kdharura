@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:contact_picker/contact_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 class Location extends StatefulWidget{
-  final String title;
-
-  Location(location, {Key key, this.title}) : super(key: key);
   @override
   _LocationState createState() => new _LocationState();
 }

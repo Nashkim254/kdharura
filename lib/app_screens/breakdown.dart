@@ -5,9 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 class Breakdown extends StatefulWidget{
-  final String title;
-  Breakdown(breakdown, {Key key, this.title}) : super(key: key);
-
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState

@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
     return  MaterialApp(
         theme: ThemeData(
           primaryColor: Color(0xff746bc9),
-          iconTheme: IconThemeData(color: Colors.black),
+          iconTheme: IconThemeData(color: Colors.lightBlue),
         ),
         debugShowCheckedModeBanner: false,
         home: StreamBuilder(

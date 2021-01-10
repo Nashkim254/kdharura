@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 
 class About extends StatefulWidget {
-  final String title;
-
-  About(about, {Key key, this.title}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {

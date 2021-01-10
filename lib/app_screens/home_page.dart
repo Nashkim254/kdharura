@@ -1,3 +1,10 @@
+import 'package:dharura_app/app_screens/about.dart';
+import 'package:dharura_app/app_screens/accident.dart';
+import 'package:dharura_app/app_screens/aid.dart';
+import 'package:dharura_app/app_screens/ambulance.dart';
+import 'package:dharura_app/app_screens/breakdown.dart';
+import 'package:dharura_app/app_screens/fire.dart';
+import 'package:dharura_app/app_screens/location.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -27,7 +34,7 @@ class _HomePageState extends State<HomePage> {
               margin: EdgeInsets.all(8.0),
               child: InkWell(
                 onTap: (){
-                  Navigator.of(context).pushNamed('/a');
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>Fire()));
                 },
                 splashColor: Colors.cyanAccent,
                 child: Center(
@@ -50,7 +57,7 @@ class _HomePageState extends State<HomePage> {
               margin: EdgeInsets.all(8.0),
               child: InkWell(
                 onTap: (){
-                  Navigator.of(context).pushNamed('/b');
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>Aid()));
                 },
                 splashColor: Colors.cyanAccent,
                 child: Center(
@@ -73,7 +80,7 @@ class _HomePageState extends State<HomePage> {
               margin: EdgeInsets.all(8.0),
               child: InkWell(
                 onTap: (){
-                  Navigator.of(context).pushNamed('/c');
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>Ambulance()));
                 },
                 splashColor: Colors.cyanAccent,
                 child: Center(
@@ -96,7 +103,7 @@ class _HomePageState extends State<HomePage> {
               margin: EdgeInsets.all(8.0),
               child: InkWell(
                 onTap: (){
-                  Navigator.of(context).pushNamed('/d');
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>Breakdown()));
                 },
                 splashColor: Colors.cyanAccent,
                 child: Center(
@@ -119,7 +126,7 @@ class _HomePageState extends State<HomePage> {
               margin: EdgeInsets.all(8.0),
               child: InkWell(
                 onTap: (){
-                  Navigator.of(context).pushNamed('/e');
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>Accident()));
                 },
                 splashColor: Colors.cyanAccent,
                 child: Center(
@@ -142,7 +149,7 @@ class _HomePageState extends State<HomePage> {
               margin: EdgeInsets.all(8.0),
               child: InkWell(
                 onTap: (){
-                  Navigator.of(context).pushNamed('/f');
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>About()));
                 },
                 splashColor: Colors.cyanAccent,
                 child: Center(
@@ -186,7 +193,7 @@ class _HomePageState extends State<HomePage> {
               margin: EdgeInsets.all(8.0),
               child: InkWell(
                 onTap: (){
-                  Navigator.of(context).pushNamed('/h');
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>Location()));
                 },
                 splashColor: Colors.tealAccent,
                 child: Center(
@@ -211,8 +218,8 @@ class _HomePageState extends State<HomePage> {
         child: ListView(
           children: <Widget>[
             UserAccountsDrawerHeader(
-              accountName: Text('Nashon Kimutai'),
-              accountEmail: Text('kimutainashon@gmail.com'),
+              accountName: Text('Phausy'),
+              accountEmail: Text('code@gmail.com'),
               currentAccountPicture: CircleAvatar(
                 backgroundColor: Colors.amber,
                 child: Text('N'),
