@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 class Feeds extends StatelessWidget{
-  final String title;
-  Feeds (this.title);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

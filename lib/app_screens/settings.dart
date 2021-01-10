@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
 class Settings extends StatefulWidget {
-  final String title;
-  Settings(aid, {Key key, this.title}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
     return _SettingsState();

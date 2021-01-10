@@ -1,10 +1,16 @@
+import 'package:contact_picker/contact_picker.dart';
 import 'package:dharura_app/app_screens/about.dart';
 import 'package:dharura_app/app_screens/accident.dart';
 import 'package:dharura_app/app_screens/aid.dart';
 import 'package:dharura_app/app_screens/ambulance.dart';
 import 'package:dharura_app/app_screens/breakdown.dart';
+import 'package:dharura_app/app_screens/contacts.dart';
 import 'package:dharura_app/app_screens/fire.dart';
+import 'package:dharura_app/app_screens/help.dart';
 import 'package:dharura_app/app_screens/location.dart';
+import 'package:dharura_app/app_screens/settings.dart';
+import 'package:dharura_app/feedback.dart';
+import 'package:dharura_app/pages/login/login_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -242,7 +248,7 @@ class _HomePageState extends State<HomePage> {
               trailing: Icon(Icons.contacts),
               onTap: () {
                 Navigator.of(context).pop();
-                Navigator.of(context).pushNamed("/j");
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>Contacts()));
               },
             ),
             Divider(),
@@ -251,7 +257,7 @@ class _HomePageState extends State<HomePage> {
               trailing: Icon(Icons.settings),
               onTap: () {
                 Navigator.of(context).pop();
-                Navigator.of(context).pushNamed("/k");
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>Settings()));
               },
             ),
             Divider(),
@@ -260,7 +266,7 @@ class _HomePageState extends State<HomePage> {
               trailing: Icon(Icons.help),
               onTap: () {
                 Navigator.of(context).pop();
-                Navigator.of(context).pushNamed("/l");
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>Help()));
               },
             ),
             Divider(),
@@ -269,7 +275,7 @@ class _HomePageState extends State<HomePage> {
               trailing: Icon(Icons.feedback),
               onTap: () {
                 Navigator.of(context).pop();
-                Navigator.of(context).pushNamed("/m");
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>Feeds()));
               },
             ),
             Divider(),
@@ -278,7 +284,7 @@ class _HomePageState extends State<HomePage> {
               trailing: Icon(Icons.person_pin),
               onTap: () {
                 Navigator.of(context).pop();
-                Navigator.of(context).pushNamed("/n");
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>LoginPage()));
               },
             ),
             Divider(),
