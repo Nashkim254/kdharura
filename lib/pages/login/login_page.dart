@@ -1,48 +1,34 @@
 
-import 'package:dharura_app/data/database_helper.dart';
-import 'package:dharura_app/models/user.dart';
-import 'package:dharura_app/pages/login/login_presenter.dart';
+import 'package:dharura_app/app_screens/home_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
-  final String title;
-
-  const LoginPage(login, {Key key, this.title}) : super(key: key);
 
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> implements LoginPageContract {
-  BuildContext _ctx;
-  bool _isLoading = false;
+class _LoginPageState extends State<LoginPage>{
+FirebaseAuth auth;
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passController = TextEditingController();
+
   final double _minimumPadding = 5.0;
   final formKey = new GlobalKey<FormState>();
   final scaffoldKey = new GlobalKey<ScaffoldState>();
   String _email, _password;
-  LoginPagePresenter _presenter;
 
-  _LoginPageState() {
-    _presenter = new LoginPagePresenter(this);
-  }
-  void _submit(){
-    final form =formKey.currentState;
-    if (form.validate()){
-      setState(() {
-        _isLoading = true;
-        form.save();
-        _presenter.doLogin(_email, _password);
-      });
+  void _submit()async{
+    if(formKey.currentState.validate()){
+      await auth.signInWithEmailAndPassword(
+          email: emailController.text, password: passController.text);
     }
-  }
-  void _showSnackBar(String  text){
-    scaffoldKey.currentState.showSnackBar(SnackBar(
-      content: Text(text), 
-    ));
-  }
+    }
+
+
   @override
   Widget build(BuildContext context) {
-    _ctx = context;
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
@@ -67,11 +53,17 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
                         padding: EdgeInsets.only(
                             top: _minimumPadding,bottom: _minimumPadding),
                         child: TextFormField(
+                          controller: emailController,
                           onSaved: (val)=>_email=val,
                           keyboardType: TextInputType.emailAddress,
                           style: TextStyle(),
-                          validator: (value) =>
-                          value.isEmpty ? "Email can\ 't be empty" : null,
+                          validator: (value) {
+                            if(value.isEmpty){
+                              return "Email cant be empty";
+                            } if(!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)) {
+                              return 'Please a valid Email';
+                            }return null;
+                          },
                           decoration: InputDecoration(
                               labelText: 'Email',
                               hintText: 'Enter Your Email e.g code@gmail.com',
@@ -83,10 +75,16 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
                         padding: EdgeInsets.only(
                             top: _minimumPadding,bottom: _minimumPadding),
                         child: TextFormField(
+                          controller: passController,
                           keyboardType: TextInputType.visiblePassword,
                           style: TextStyle(),
-                          validator: (value) =>
-                          value.isEmpty ? "Password can\ 't be empty" : null,
+                          validator: (value){
+                            if(value.isEmpty){
+                              return "password cannot be empty";
+                            }if(value.length < 6){
+                              return "Password cannot be less than 6 characters";
+                            }return null;
+                          },
                           decoration: InputDecoration(
                               labelText: 'Password',
                               hintText: 'Enter Your Password here:',
@@ -105,7 +103,10 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
                                 child: Text('Login',
                                   textScaleFactor: 1.5,
                                 ),
-                                onPressed: _submit,
+                                onPressed: (){
+                                  _submit();
+                                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=> HomePage()));
+                                },
                               ),
                             ),
                           ],
@@ -138,27 +139,7 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
         )
     );
   }
-  @override
-  void onLoginError(String error) {
-    // TODO: implement onLoginError
-    _showSnackBar(error);
-    setState(() {
-      _isLoading = false;
-    });
-    }
 
-  @override
-  void onLoginSuccess(User user) async {
-    // TODO: implement onLoginSuccess
-    _showSnackBar(user.toString());
-    setState(() {
-      _isLoading = false;
-
-    });
-    var db = new DatabaseHelper();
-    await db.saveUser(user);
-    Navigator.of(context).pushReplacementNamed("/home_page");
-  }
 }
   Widget getImageAsset() {
     final _minimumPadding = 5.0;
