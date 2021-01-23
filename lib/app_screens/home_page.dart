@@ -1,6 +1,6 @@
-import 'package:contact_picker/contact_picker.dart';
 import 'package:dharura_app/app_screens/about.dart';
 import 'package:dharura_app/app_screens/accident.dart';
+import 'package:dharura_app/app_screens/admin_page.dart';
 import 'package:dharura_app/app_screens/aid.dart';
 import 'package:dharura_app/app_screens/ambulance.dart';
 import 'package:dharura_app/app_screens/breakdown.dart';
@@ -14,14 +14,13 @@ import 'package:dharura_app/pages/login/login_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-
-class HomePage  extends StatefulWidget{
-  static const String routeName='/';
+class HomePage extends StatefulWidget {
+  static const String routeName = '/';
   @override
   State<StatefulWidget> createState() => new _HomePageState();
 }
-class _HomePageState extends State<HomePage> {
 
+class _HomePageState extends State<HomePage> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
@@ -29,7 +28,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Emergency Response App'),
-        elevation: defaultTargetPlatform == TargetPlatform.android? 5.0:0.0,
+        elevation: defaultTargetPlatform == TargetPlatform.android ? 5.0 : 0.0,
       ),
       body: Container(
         padding: EdgeInsets.all(30.0),
@@ -39,8 +38,9 @@ class _HomePageState extends State<HomePage> {
             Card(
               margin: EdgeInsets.all(8.0),
               child: InkWell(
-                onTap: (){
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>Fire()));
+                onTap: () {
+                  Navigator.pushReplacement(
+                      context, MaterialPageRoute(builder: (_) => Fire()));
                 },
                 splashColor: Colors.cyanAccent,
                 child: Center(
@@ -52,18 +52,18 @@ class _HomePageState extends State<HomePage> {
                         size: 70.0,
                         color: Colors.redAccent,
                       ),
-                      Text('Fire',style: TextStyle(fontSize: 17.0)),
+                      Text('Fire', style: TextStyle(fontSize: 17.0)),
                     ],
                   ),
                 ),
               ),
             ),
-
             Card(
               margin: EdgeInsets.all(8.0),
               child: InkWell(
-                onTap: (){
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>Aid()));
+                onTap: () {
+                  Navigator.pushReplacement(
+                      context, MaterialPageRoute(builder: (_) => Aid()));
                 },
                 splashColor: Colors.cyanAccent,
                 child: Center(
@@ -75,18 +75,18 @@ class _HomePageState extends State<HomePage> {
                         size: 70.0,
                         color: Colors.blue,
                       ),
-                      Text('First Aid',style: TextStyle(fontSize: 17.0)),
+                      Text('First Aid', style: TextStyle(fontSize: 17.0)),
                     ],
                   ),
                 ),
               ),
             ),
-
             Card(
               margin: EdgeInsets.all(8.0),
               child: InkWell(
-                onTap: (){
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>Ambulance()));
+                onTap: () {
+                  Navigator.pushReplacement(
+                      context, MaterialPageRoute(builder: (_) => Ambulance()));
                 },
                 splashColor: Colors.cyanAccent,
                 child: Center(
@@ -98,18 +98,18 @@ class _HomePageState extends State<HomePage> {
                         size: 70.0,
                         color: Colors.greenAccent,
                       ),
-                      Text('Ambulance',style: TextStyle(fontSize: 17.0)),
+                      Text('Ambulance', style: TextStyle(fontSize: 17.0)),
                     ],
                   ),
                 ),
               ),
             ),
-
             Card(
               margin: EdgeInsets.all(8.0),
               child: InkWell(
-                onTap: (){
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>Breakdown()));
+                onTap: () {
+                  Navigator.pushReplacement(
+                      context, MaterialPageRoute(builder: (_) => Breakdown()));
                 },
                 splashColor: Colors.cyanAccent,
                 child: Center(
@@ -121,18 +121,18 @@ class _HomePageState extends State<HomePage> {
                         size: 70.0,
                         color: Colors.greenAccent,
                       ),
-                      Text('Breakdown',style: TextStyle(fontSize: 17.0)),
+                      Text('Breakdown', style: TextStyle(fontSize: 17.0)),
                     ],
                   ),
                 ),
               ),
             ),
-
             Card(
               margin: EdgeInsets.all(8.0),
               child: InkWell(
-                onTap: (){
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>Accident()));
+                onTap: () {
+                  Navigator.pushReplacement(
+                      context, MaterialPageRoute(builder: (_) => Accident()));
                 },
                 splashColor: Colors.cyanAccent,
                 child: Center(
@@ -144,18 +144,18 @@ class _HomePageState extends State<HomePage> {
                         size: 70.0,
                         color: Colors.greenAccent,
                       ),
-                      Text('Police',style: TextStyle(fontSize: 17.0)),
+                      Text('Police', style: TextStyle(fontSize: 17.0)),
                     ],
                   ),
                 ),
               ),
             ),
-
             Card(
               margin: EdgeInsets.all(8.0),
               child: InkWell(
-                onTap: (){
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>About()));
+                onTap: () {
+                  Navigator.pushReplacement(
+                      context, MaterialPageRoute(builder: (_) => About()));
                 },
                 splashColor: Colors.cyanAccent,
                 child: Center(
@@ -167,7 +167,7 @@ class _HomePageState extends State<HomePage> {
                         size: 70.0,
                         color: Colors.greenAccent,
                       ),
-                      Text('About Me',style: TextStyle(fontSize: 17.0)),
+                      Text('About Me', style: TextStyle(fontSize: 17.0)),
                     ],
                   ),
                 ),
@@ -176,8 +176,8 @@ class _HomePageState extends State<HomePage> {
             Card(
               margin: EdgeInsets.all(8.0),
               child: InkWell(
-                onTap: (){
-                  Navigator.of(context).pushNamed('/g');
+                onTap: () {
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>Help()));
                 },
                 splashColor: Colors.tealAccent,
                 child: Center(
@@ -185,11 +185,11 @@ class _HomePageState extends State<HomePage> {
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       Icon(
-                        Icons.people,
+                        Icons.help_center_outlined,
                         size: 70.0,
                         color: Colors.pinkAccent,
                       ),
-                      Text('Signup',style: TextStyle(fontSize: 17.0)),
+                      Text('Help', style: TextStyle(fontSize: 17.0)),
                     ],
                   ),
                 ),
@@ -198,12 +198,13 @@ class _HomePageState extends State<HomePage> {
             Card(
               margin: EdgeInsets.all(8.0),
               child: InkWell(
-                onTap: (){
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>Location()));
+                onTap: () {
+                  Navigator.pushReplacement(
+                      context, MaterialPageRoute(builder: (_) => Location()));
                 },
                 splashColor: Colors.tealAccent,
                 child: Center(
-                  child:Column(
+                  child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       Icon(
@@ -211,7 +212,7 @@ class _HomePageState extends State<HomePage> {
                         size: 70.0,
                         color: Colors.green,
                       ),
-                      Text('Distress call',style: TextStyle(fontSize: 17.0)),
+                      Text('Distress call', style: TextStyle(fontSize: 17.0)),
                     ],
                   ),
                 ),
@@ -224,11 +225,11 @@ class _HomePageState extends State<HomePage> {
         child: ListView(
           children: <Widget>[
             UserAccountsDrawerHeader(
-              accountName: Text('Phausy'),
+              accountName: Text('Brilly'),
               accountEmail: Text('code@gmail.com'),
               currentAccountPicture: CircleAvatar(
                 backgroundColor: Colors.amber,
-                child: Text('N'),
+                child: Text('B'),
               ),
               otherAccountsPictures: <Widget>[
                 CircleAvatar(
@@ -238,17 +239,19 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
             ListTile(
-              title: Text('K-Dharura'),
-              trailing: Icon(Icons.arrow_upward),
-              onTap: () => Navigator.of(context).pop(),
-            ),
+                title: Text('K-Dharura'),
+                trailing: Icon(Icons.arrow_upward),
+                onTap: () {
+                  Navigator.pop(context);
+                }),
             Divider(),
             ListTile(
               title: Text('Contacts'),
               trailing: Icon(Icons.contacts),
               onTap: () {
                 Navigator.of(context).pop();
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>Contacts()));
+                Navigator.pushReplacement(
+                    context, MaterialPageRoute(builder: (_) => Contacts()));
               },
             ),
             Divider(),
@@ -257,25 +260,26 @@ class _HomePageState extends State<HomePage> {
               trailing: Icon(Icons.settings),
               onTap: () {
                 Navigator.of(context).pop();
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>Settings()));
+                Navigator.pushReplacement(
+                    context, MaterialPageRoute(builder: (_) => Settings()));
               },
             ),
             Divider(),
             ListTile(
-              title: Text('Help'),
-              trailing: Icon(Icons.help),
-              onTap: () {
-                Navigator.of(context).pop();
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>Help()));
-              },
-            ),
+                title: Text('Admin Area'),
+                trailing: Icon(Icons.arrow_upward),
+                onTap: () {
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => AdminPage()));
+                }),
             Divider(),
             ListTile(
               title: Text('Feedback'),
               trailing: Icon(Icons.feedback),
               onTap: () {
                 Navigator.of(context).pop();
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>Feeds()));
+                Navigator.pushReplacement(
+                    context, MaterialPageRoute(builder: (_) => Feeds()));
               },
             ),
             Divider(),
@@ -284,7 +288,8 @@ class _HomePageState extends State<HomePage> {
               trailing: Icon(Icons.person_pin),
               onTap: () {
                 Navigator.of(context).pop();
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>LoginPage()));
+                Navigator.pushReplacement(
+                    context, MaterialPageRoute(builder: (_) => LoginPage()));
               },
             ),
             Divider(),

@@ -1,13 +1,10 @@
-
 import 'package:dharura_app/app_screens/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 
 class Signup extends StatefulWidget {
-
   @override
   _SignupState createState() => _SignupState();
 }
@@ -56,7 +53,6 @@ class _SignupState extends State<Signup> {
         .pushReplacement(MaterialPageRoute(builder: (ctx) => HomePage()));
   }
 
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -64,8 +60,7 @@ class _SignupState extends State<Signup> {
         theme: ThemeData(
             brightness: Brightness.dark,
             accentColor: Colors.cyan,
-            primaryColor: Colors.teal
-        ),
+            primaryColor: Colors.teal),
         home: Scaffold(
             resizeToAvoidBottomPadding: false,
             appBar: AppBar(
@@ -98,7 +93,7 @@ class _SignupState extends State<Signup> {
                               return "Email cant be empty";
                             }
                             if (!RegExp(
-                                "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+                                    "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
                                 .hasMatch(value)) {
                               return 'Please a valid Email';
                             }
@@ -141,13 +136,10 @@ class _SignupState extends State<Signup> {
                           children: <Widget>[
                             Expanded(
                               child: RaisedButton(
-                                color: Theme
-                                    .of(context)
-                                    .accentColor,
-                                textColor: Theme
-                                    .of(context)
-                                    .primaryColorDark,
-                                child: Text('Signup',
+                                color: Theme.of(context).accentColor,
+                                textColor: Theme.of(context).primaryColorDark,
+                                child: Text(
+                                  'Signup',
                                   textScaleFactor: 1.5,
                                 ),
                                 onPressed: _submit,
@@ -158,10 +150,7 @@ class _SignupState extends State<Signup> {
                       ),
                     ],
                   ),
-                )
-            )
-        )
-    );
+                ))));
   }
 
   Widget getImageAsset() {
