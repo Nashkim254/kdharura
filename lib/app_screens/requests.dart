@@ -11,14 +11,14 @@ class UserRequests extends StatefulWidget {
 class _UserRequestsState extends State<UserRequests> {
   //String variables to receive data
 
-  String title = "";
-  String message = "";
+  String location = "";
+  String request = "";
 
-  int itemCount = 0;
+  bool isApproved = false;
 
   //instance of  document referrence
   final DocumentReference documentReference =
-      FirebaseFirestore.instance.doc('feedback/myfeedback');
+      FirebaseFirestore.instance.doc('requests');
 
   //streamsubscription
 
@@ -30,8 +30,8 @@ class _UserRequestsState extends State<UserRequests> {
     documentReference.get().then((datasnapshot) {
       if (datasnapshot.exists) {
         setState(() {
-          title = datasnapshot.data()['title'];
-          message = datasnapshot.data()['message'];
+          location = datasnapshot.data()['Location'];
+          request = datasnapshot.data()['request'];
         });
       }
     });
@@ -45,8 +45,8 @@ class _UserRequestsState extends State<UserRequests> {
     streamSubscription = documentReference.snapshots().listen((datasnapshot) {
       if (datasnapshot.exists) {
         setState(() {
-          title = datasnapshot.data()['title'];
-          message = datasnapshot.data()['message'];
+          location = datasnapshot.data()['Location'];
+          request = datasnapshot.data()['request'];
         });
       }
     });
@@ -87,40 +87,35 @@ class _UserRequestsState extends State<UserRequests> {
             children: [
               Padding(
                 padding: EdgeInsets.all(8.0),
-                child: title == null
-                    ? Container()
-                    : Container(
-                        height: 100,
-                        width: MediaQuery.of(context).size.width,
-                        child: Center(
-                          child: Card(
-                            elevation: 0.8,
-                            child: Center(
-                              child: Text(
-                                'Title:' + '' + title,
-                                style: TextStyle(fontSize: 20.0),
-                              ),
-                            ),
-                          ),
+                child: location == null
+                    ? Center(child: CircularProgressIndicator())
+                    : ListTile(
+                        trailing: RaisedButton(
+                          onPressed: () {
+                            setState(() {
+                              isApproved = true;
+                            });
+                          },
+                          child: isApproved
+                              ? Text(
+                                  'Approved',
+                                  style: TextStyle(
+                                    color: Colors.green,
+                                  ),
+                                )
+                              : Text(
+                                  'Approve',
+                                  style: TextStyle(color: Colors.red),
+                                ),
                         ),
-                      ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(8.0),
-                child: message == null
-                    ? Container()
-                    : Container(
-                        height: 100,
-                        width: MediaQuery.of(context).size.width,
-                        child: Center(
-                          child: Card(
-                            elevation: 0.8,
-                            child: Center(
-                              child: Text(
-                                'Feedback:' + '' + message,
-                                style: TextStyle(fontSize: 20.0),
-                              ),
-                            ),
+                        title: Text(
+                          location,
+                          style: TextStyle(fontSize: 20.0),
+                        ),
+                        subtitle: Text(
+                          request,
+                          style: TextStyle(
+                            fontSize: 20.0,
                           ),
                         ),
                       ),
