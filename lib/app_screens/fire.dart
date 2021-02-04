@@ -22,12 +22,24 @@ class _FireState extends State<Fire> {
   GoogleMapController _controller;
   TextEditingController locController = TextEditingController();
   TextEditingController reqController = TextEditingController();
-  void send()async{
+  void send() async {
     await FirebaseFirestore.instance.collection('requests').doc().set({
       "Location": locController.text,
       "request": reqController.text,
+    }).whenComplete(() {
+      Future<void> _showMyDialog() async {
+        return showDialog<void>(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text('Request sent'),
+                content: Text('Response on the way'),
+              );
+            });
+      }
     });
   }
+
   static final CameraPosition initialLocation = CameraPosition(
     target: LatLng(37.42796133580664, -122.085749655962),
     zoom: 14.4746,
@@ -35,7 +47,7 @@ class _FireState extends State<Fire> {
 
   Future<Uint8List> getMarker() async {
     ByteData byteData =
-    await DefaultAssetBundle.of(context).load("lib/assets/car_icon.png");
+        await DefaultAssetBundle.of(context).load("lib/assets/car_icon.png");
     return byteData.buffer.asUint8List();
   }
 
@@ -74,16 +86,16 @@ class _FireState extends State<Fire> {
 
       _locationSubscription =
           _locationTracker.onLocationChanged().listen((newLocalData) {
-            if (_controller != null) {
-              _controller.animateCamera(CameraUpdate.newCameraPosition(
-                  new CameraPosition(
-                      bearing: 192.8334901395799,
-                      target: LatLng(newLocalData.latitude, newLocalData.longitude),
-                      tilt: 0,
-                      zoom: 18.00)));
-              updateMarkerAndCircle(newLocalData, imageData);
-            }
-          });
+        if (_controller != null) {
+          _controller.animateCamera(CameraUpdate.newCameraPosition(
+              new CameraPosition(
+                  bearing: 192.8334901395799,
+                  target: LatLng(newLocalData.latitude, newLocalData.longitude),
+                  tilt: 0,
+                  zoom: 18.00)));
+          updateMarkerAndCircle(newLocalData, imageData);
+        }
+      });
     } on PlatformException catch (e) {
       if (e.code == 'PERMISSION_DENIED') {
         debugPrint("Permission Denied");
@@ -116,7 +128,6 @@ class _FireState extends State<Fire> {
               _controller = controller;
             },
           ),
-
           Positioned(
             top: 50.0,
             right: 15.0,
@@ -155,7 +166,6 @@ class _FireState extends State<Fire> {
               ),
             ),
           ),
-
           Positioned(
             top: 105.0,
             right: 15.0,
@@ -195,16 +205,16 @@ class _FireState extends State<Fire> {
               ),
             ),
           ),
-
           Positioned(
             bottom: 105.0,
             right: 15.0,
             left: 15.0,
             child: FlatButton(
-              child: Text('Send Request',
+              child: Text(
+                'Send Request',
                 style: TextStyle(color: Colors.black, fontSize: 24.0),
               ),
-              onPressed: (){
+              onPressed: () {
                 send();
               },
             ),
