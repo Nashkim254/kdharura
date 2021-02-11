@@ -23,7 +23,7 @@ class _FireState extends State<Fire> {
   TextEditingController locController = TextEditingController();
   TextEditingController reqController = TextEditingController();
   void send() async {
-    await FirebaseFirestore.instance.collection('requests').doc().set({
+    await FirebaseFirestore.instance.collection('locationData').doc().set({
       "Location": locController.text,
       "request": reqController.text,
     }).whenComplete(() {
@@ -120,7 +120,7 @@ class _FireState extends State<Fire> {
       body: Stack(
         children: [
           GoogleMap(
-            mapType: MapType.hybrid,
+            mapType: MapType.normal,
             initialCameraPosition: initialLocation,
             markers: Set.of((marker != null) ? [marker] : []),
             circles: Set.of((circle != null) ? [circle] : []),

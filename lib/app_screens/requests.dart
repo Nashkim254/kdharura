@@ -18,7 +18,7 @@ class _UserRequestsState extends State<UserRequests> {
 
   //instance of  document referrence
   final DocumentReference documentReference =
-      FirebaseFirestore.instance.doc('requests');
+      FirebaseFirestore.instance.doc('locationData');
 
   //streamsubscription
 

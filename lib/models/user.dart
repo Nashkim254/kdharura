@@ -1,19 +1,17 @@
-class User {
-  String _email;
-  String _password;
+import 'package:flutter/material.dart';
 
-  User(this._email, this._password);
-  User.fromMapObject(Map<String, dynamic> map){
-    this._email= map['email'];
-    this._password=map['password'];
-  }
-  String get email => _email;
-  String get password => _password;
-
-  Map<String, dynamic> toMap(){
-    var map = new Map<String, dynamic>();
-    map['email'] = _email;
-    map ['password'] = _password;
-    return map;
-  }
+class UserModel {
+  String userName,
+      userEmail,
+      userGender,
+      userPhoneNumber,
+      userImage,
+      userAddress;
+  UserModel(
+      {@required this.userEmail,
+      @required this.userImage,
+      @required this.userAddress,
+      @required this.userGender,
+      @required this.userName,
+      @required this.userPhoneNumber});
 }

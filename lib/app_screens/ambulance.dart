@@ -22,12 +22,13 @@ class _AmbulanceState extends State<Ambulance> {
   GoogleMapController _controller;
   TextEditingController locController = TextEditingController();
   TextEditingController reqController = TextEditingController();
-void send()async{
-  await FirebaseFirestore.instance.collection('requests').doc().set({
-    "Location": locController.text,
-    "request": reqController.text,
-  });
-}
+  void send() async {
+    await FirebaseFirestore.instance.collection('locationData').doc().set({
+      "Location": locController.text,
+      "request": reqController.text,
+    });
+  }
+
   static final CameraPosition initialLocation = CameraPosition(
     target: LatLng(37.42796133580664, -122.085749655962),
     zoom: 14.4746,
@@ -108,7 +109,7 @@ void send()async{
       body: Stack(
         children: [
           GoogleMap(
-            mapType: MapType.hybrid,
+            mapType: MapType.normal,
             initialCameraPosition: initialLocation,
             markers: Set.of((marker != null) ? [marker] : []),
             circles: Set.of((circle != null) ? [circle] : []),
@@ -116,7 +117,6 @@ void send()async{
               _controller = controller;
             },
           ),
-
           Positioned(
             top: 50.0,
             right: 15.0,
@@ -155,7 +155,6 @@ void send()async{
               ),
             ),
           ),
-
           Positioned(
             top: 105.0,
             right: 15.0,
@@ -195,16 +194,16 @@ void send()async{
               ),
             ),
           ),
-
           Positioned(
             bottom: 105.0,
             right: 15.0,
             left: 15.0,
             child: FlatButton(
-              child: Text('Send Request',
+              child: Text(
+                'Send Request',
                 style: TextStyle(color: Colors.black, fontSize: 24.0),
               ),
-              onPressed: (){
+              onPressed: () {
                 send();
               },
             ),

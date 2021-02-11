@@ -22,12 +22,13 @@ class _AccidentState extends State<Accident> {
   GoogleMapController _controller;
   TextEditingController locController = TextEditingController();
   TextEditingController reqController = TextEditingController();
-  void send()async{
-    await FirebaseFirestore.instance.collection('requests').doc().set({
+  void send() async {
+    await FirebaseFirestore.instance.collection('locationData').doc().set({
       "Location": locController.text,
       "request": reqController.text,
     });
   }
+
   static final CameraPosition initialLocation = CameraPosition(
     target: LatLng(37.42796133580664, -122.085749655962),
     zoom: 14.4746,
@@ -35,7 +36,7 @@ class _AccidentState extends State<Accident> {
 
   Future<Uint8List> getMarker() async {
     ByteData byteData =
-    await DefaultAssetBundle.of(context).load("lib/assets/car_icon.png");
+        await DefaultAssetBundle.of(context).load("lib/assets/car_icon.png");
     return byteData.buffer.asUint8List();
   }
 
@@ -74,16 +75,16 @@ class _AccidentState extends State<Accident> {
 
       _locationSubscription =
           _locationTracker.onLocationChanged().listen((newLocalData) {
-            if (_controller != null) {
-              _controller.animateCamera(CameraUpdate.newCameraPosition(
-                  new CameraPosition(
-                      bearing: 192.8334901395799,
-                      target: LatLng(newLocalData.latitude, newLocalData.longitude),
-                      tilt: 0,
-                      zoom: 18.00)));
-              updateMarkerAndCircle(newLocalData, imageData);
-            }
-          });
+        if (_controller != null) {
+          _controller.animateCamera(CameraUpdate.newCameraPosition(
+              new CameraPosition(
+                  bearing: 192.8334901395799,
+                  target: LatLng(newLocalData.latitude, newLocalData.longitude),
+                  tilt: 0,
+                  zoom: 18.00)));
+          updateMarkerAndCircle(newLocalData, imageData);
+        }
+      });
     } on PlatformException catch (e) {
       if (e.code == 'PERMISSION_DENIED') {
         debugPrint("Permission Denied");
@@ -108,7 +109,7 @@ class _AccidentState extends State<Accident> {
       body: Stack(
         children: [
           GoogleMap(
-            mapType: MapType.hybrid,
+            mapType: MapType.normal,
             initialCameraPosition: initialLocation,
             markers: Set.of((marker != null) ? [marker] : []),
             circles: Set.of((circle != null) ? [circle] : []),
@@ -116,7 +117,6 @@ class _AccidentState extends State<Accident> {
               _controller = controller;
             },
           ),
-
           Positioned(
             top: 50.0,
             right: 15.0,
@@ -155,7 +155,6 @@ class _AccidentState extends State<Accident> {
               ),
             ),
           ),
-
           Positioned(
             top: 105.0,
             right: 15.0,
@@ -195,16 +194,16 @@ class _AccidentState extends State<Accident> {
               ),
             ),
           ),
-
           Positioned(
             bottom: 105.0,
             right: 15.0,
             left: 15.0,
             child: FlatButton(
-              child: Text('Send Request',
+              child: Text(
+                'Send Request',
                 style: TextStyle(color: Colors.black, fontSize: 24.0),
               ),
-              onPressed: (){
+              onPressed: () {
                 send();
               },
             ),

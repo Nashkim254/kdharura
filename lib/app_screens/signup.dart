@@ -1,43 +1,63 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dharura_app/app_screens/home_page.dart';
+import 'package:dharura_app/app_screens/login.dart';
+import 'package:dharura_app/widgets/changescreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
+import 'package:dharura_app/widgets/mybutton.dart';
+import 'package:dharura_app/widgets/mytextFormfield.dart';
+import 'package:dharura_app/widgets/passwordtextformfield.dart';
 
-class Signup extends StatefulWidget {
+class SignUp extends StatefulWidget {
   @override
-  _SignupState createState() => _SignupState();
+  _SignUpState createState() => _SignUpState();
 }
 
-class _SignupState extends State<Signup> {
-  FirebaseAuth auth;
-  FirebaseFirestore firestore;
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passController = TextEditingController();
+final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+String p =
+    r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
 
-  final double _minimumPadding = 5.0;
-  final formKey = new GlobalKey<FormState>();
-  final scaffoldKey = new GlobalKey<ScaffoldState>();
-  String _email, _password;
+RegExp regExp = new RegExp(p);
+bool obserText = true;
+final TextEditingController email = TextEditingController();
+final TextEditingController userName = TextEditingController();
+final TextEditingController phoneNumber = TextEditingController();
+final TextEditingController password = TextEditingController();
+final TextEditingController address = TextEditingController();
 
-  void _submit() async {
+bool isMale = true;
+bool isLoading = false;
+
+class _SignUpState extends State<SignUp> {
+  void submit() async {
     UserCredential result;
     try {
+      setState(() {
+        isLoading = true;
+      });
       result = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: emailController.text, password: passController.text);
+          email: email.text, password: password.text);
       print(result);
     } on PlatformException catch (error) {
       var message = "Please Check Your Internet Connection ";
       if (error.message != null) {
         message = error.message;
       }
-      scaffoldKey.currentState.showSnackBar(SnackBar(
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
         content: Text(message.toString()),
         duration: Duration(milliseconds: 600),
         backgroundColor: Theme.of(context).primaryColor,
       ));
+      setState(() {
+        isLoading = false;
+      });
     } catch (error) {
-      scaffoldKey.currentState.showSnackBar(SnackBar(
+      setState(() {
+        isLoading = false;
+      });
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
         content: Text(error.toString()),
         duration: Duration(milliseconds: 600),
         backgroundColor: Theme.of(context).primaryColor,
@@ -46,124 +66,217 @@ class _SignupState extends State<Signup> {
       print(error);
     }
     FirebaseFirestore.instance.collection("User").doc(result.user.uid).set({
+      "UserName": userName.text,
       "UserId": result.user.uid,
-      "UserEmail": emailController.text,
+      "UserEmail": email.text,
+      "UserAddress": address.text,
+      "UserGender": isMale == true ? "Male" : "Female",
+      "UserNumber": phoneNumber.text,
     });
     Navigator.of(context)
         .pushReplacement(MaterialPageRoute(builder: (ctx) => HomePage()));
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  void vaildation() async {
+    if (userName.text.isEmpty &&
+        email.text.isEmpty &&
+        password.text.isEmpty &&
+        phoneNumber.text.isEmpty &&
+        address.text.isEmpty) {
+      _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          content: Text("All Fields Are Empty"),
+        ),
+      );
+    } else if (userName.text.length < 6) {
+      _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          content: Text("Name Must Be 6 "),
+        ),
+      );
+    } else if (email.text.isEmpty) {
+      _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          content: Text("Email Is Empty"),
+        ),
+      );
+    } else if (!regExp.hasMatch(email.text)) {
+      _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          content: Text("Please Try Vaild Email"),
+        ),
+      );
+    } else if (password.text.isEmpty) {
+      _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          content: Text("Password Is Empty"),
+        ),
+      );
+    } else if (password.text.length < 8) {
+      _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          content: Text("Password  Is Too Short"),
+        ),
+      );
+    } else if (phoneNumber.text.length < 10 || phoneNumber.text.length > 10) {
+      _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          content: Text("Phone Number Must Be 10 "),
+        ),
+      );
+    } else if (address.text.isEmpty) {
+      _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          content: Text("Adress Is Empty "),
+        ),
+      );
+    } else {
+      submit();
+    }
+  }
+
+  Widget _buildAllTextFormField() {
+    return Container(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          MyTextFormField(
+            name: "UserName",
+            controller: userName,
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          MyTextFormField(
+            name: "Email",
+            controller: email,
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          PasswordTextFormField(
+            obserText: obserText,
+            controller: password,
+            name: "Password",
+            onTap: () {
+              FocusScope.of(context).unfocus();
+              setState(() {
+                obserText = !obserText;
+              });
+            },
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                isMale = !isMale;
+              });
+            },
+            child: Container(
+              height: 60,
+              padding: EdgeInsets.only(left: 10),
+              width: double.infinity,
+              decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
+              child: Center(
+                child: Row(
+                  children: [
+                    Text(
+                      isMale == true ? "Male" : "Female",
+                      style: TextStyle(color: Colors.black87, fontSize: 18),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          MyTextFormField(
+            name: "Phone Number",
+            controller: phoneNumber,
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          MyTextFormField(
+            name: "Address",
+            controller: address,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBottomPart() {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 10),
+      width: double.infinity,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          _buildAllTextFormField(),
+          SizedBox(
+            height: 10,
+          ),
+          isLoading == false
+              ? MyButton(
+                  name: "SignUp",
+                  onPressed: () {
+                    vaildation();
+                  },
+                )
+              : Center(
+                  child: CircularProgressIndicator(),
+                ),
+          ChangeScreen(
+            name: "Login",
+            whichAccount: "I Already have An Account!",
+            onTap: () {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (ctx) => Login(),
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-            brightness: Brightness.dark,
-            accentColor: Colors.cyan,
-            primaryColor: Colors.teal),
-        home: Scaffold(
-            resizeToAvoidBottomPadding: false,
-            appBar: AppBar(
-              leading: IconButton(
-                icon: Icon(Icons.arrow_back),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-              title: Text('Signup'),
-            ),
-            key: scaffoldKey,
-            body: Form(
-                key: formKey,
-                child: Padding(
-                  padding: EdgeInsets.all(_minimumPadding * 2),
-                  child: ListView(
-                    children: <Widget>[
-                      getImageAsset(),
-                      Padding(
-                        padding: EdgeInsets.only(
-                            top: _minimumPadding, bottom: _minimumPadding),
-                        child: TextFormField(
-                          controller: emailController,
-                          onSaved: (val) => _email = val,
-                          keyboardType: TextInputType.emailAddress,
-                          style: TextStyle(),
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return "Email cant be empty";
-                            }
-                            if (!RegExp(
-                                    "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
-                                .hasMatch(value)) {
-                              return 'Please a valid Email';
-                            }
-                            return null;
-                          },
-                          decoration: InputDecoration(
-                              labelText: 'Email',
-                              hintText: 'Enter Your Email e.g code@gmail.com',
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(5.0))),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                            top: _minimumPadding, bottom: _minimumPadding),
-                        child: TextFormField(
-                          controller: passController,
-                          keyboardType: TextInputType.visiblePassword,
-                          style: TextStyle(),
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return "password cannot be empty";
-                            }
-                            if (value.length < 6) {
-                              return "Password cannot be less than 6 characters";
-                            }
-                            return null;
-                          },
-                          decoration: InputDecoration(
-                              labelText: 'Password',
-                              hintText: 'Enter Your Password here:',
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(5.0))),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                            top: _minimumPadding, bottom: _minimumPadding),
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: RaisedButton(
-                                color: Theme.of(context).accentColor,
-                                textColor: Theme.of(context).primaryColorDark,
-                                child: Text(
-                                  'Signup',
-                                  textScaleFactor: 1.5,
-                                ),
-                                onPressed: _submit,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
+    return Scaffold(
+      key: _scaffoldKey,
+      body: ListView(
+        children: [
+          Container(
+            height: 200,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  "Register",
+                  style: TextStyle(
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold,
                   ),
-                ))));
-  }
-
-  Widget getImageAsset() {
-    final _minimumPadding = 5.0;
-    AssetImage assetImage = AssetImage('lib/assets/profile.jpg');
-    Image image = Image(
-      image: assetImage,
-      width: 125.0,
-      height: 125.0,
-    );
-    return Container(
-      child: image,
-      margin: EdgeInsets.all(_minimumPadding * 10),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            height: 500,
+            child: _buildBottomPart(),
+          ),
+        ],
+      ),
     );
   }
 }

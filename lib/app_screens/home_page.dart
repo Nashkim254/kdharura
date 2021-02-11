@@ -8,14 +8,13 @@ import 'package:dharura_app/app_screens/contacts.dart';
 import 'package:dharura_app/app_screens/fire.dart';
 import 'package:dharura_app/app_screens/help.dart';
 import 'package:dharura_app/app_screens/location.dart';
+import 'package:dharura_app/app_screens/login.dart';
 import 'package:dharura_app/app_screens/settings.dart';
 import 'package:dharura_app/feedback.dart';
-import 'package:dharura_app/pages/login/login_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
-  static const String routeName = '/';
   @override
   State<StatefulWidget> createState() => new _HomePageState();
 }
@@ -177,7 +176,8 @@ class _HomePageState extends State<HomePage> {
               margin: EdgeInsets.all(8.0),
               child: InkWell(
                 onTap: () {
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>Help()));
+                  Navigator.pushReplacement(
+                      context, MaterialPageRoute(builder: (_) => Help()));
                 },
                 splashColor: Colors.tealAccent,
                 child: Center(
@@ -251,7 +251,7 @@ class _HomePageState extends State<HomePage> {
               onTap: () {
                 Navigator.of(context).pop();
                 Navigator.pushReplacement(
-                    context, MaterialPageRoute(builder: (_) => Contacts()));
+                    context, MaterialPageRoute(builder: (_) => ContactUs()));
               },
             ),
             Divider(),
@@ -289,7 +289,7 @@ class _HomePageState extends State<HomePage> {
               onTap: () {
                 Navigator.of(context).pop();
                 Navigator.pushReplacement(
-                    context, MaterialPageRoute(builder: (_) => LoginPage()));
+                    context, MaterialPageRoute(builder: (_) => Login()));
               },
             ),
             Divider(),
