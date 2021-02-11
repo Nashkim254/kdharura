@@ -8,9 +8,10 @@ import 'package:dharura_app/app_screens/contacts.dart';
 import 'package:dharura_app/app_screens/fire.dart';
 import 'package:dharura_app/app_screens/help.dart';
 import 'package:dharura_app/app_screens/location.dart';
-import 'package:dharura_app/app_screens/login.dart';
-import 'package:dharura_app/app_screens/settings.dart';
+import 'package:dharura_app/app_screens/profilescreen.dart';
 import 'package:dharura_app/feedback.dart';
+import 'package:dharura_app/models/user.dart';
+import 'package:dharura_app/provider/userprovider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -19,8 +20,30 @@ class HomePage extends StatefulWidget {
   State<StatefulWidget> createState() => new _HomePageState();
 }
 
+ProductProvider productProvider;
+
 class _HomePageState extends State<HomePage> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  Widget _buildUserAccountsDrawerHeader() {
+    List<UserModel> userModel = productProvider.userModelList;
+    return Column(
+        children: userModel.map((e) {
+      return UserAccountsDrawerHeader(
+        accountName: Text(
+          e.userName,
+          style: TextStyle(color: Colors.black),
+        ),
+        currentAccountPicture: CircleAvatar(
+          backgroundColor: Colors.white,
+          backgroundImage: e.userImage == null
+              ? AssetImage("images/userImage.png")
+              : NetworkImage(e.userImage),
+        ),
+        decoration: BoxDecoration(color: Color(0xfff2f2f2)),
+        accountEmail: Text(e.userEmail, style: TextStyle(color: Colors.black)),
+      );
+    }).toList());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +61,7 @@ class _HomePageState extends State<HomePage> {
               margin: EdgeInsets.all(8.0),
               child: InkWell(
                 onTap: () {
-                  Navigator.pushReplacement(
+                  Navigator.push(
                       context, MaterialPageRoute(builder: (_) => Fire()));
                 },
                 splashColor: Colors.cyanAccent,
@@ -61,7 +84,7 @@ class _HomePageState extends State<HomePage> {
               margin: EdgeInsets.all(8.0),
               child: InkWell(
                 onTap: () {
-                  Navigator.pushReplacement(
+                  Navigator.push(
                       context, MaterialPageRoute(builder: (_) => Aid()));
                 },
                 splashColor: Colors.cyanAccent,
@@ -84,7 +107,7 @@ class _HomePageState extends State<HomePage> {
               margin: EdgeInsets.all(8.0),
               child: InkWell(
                 onTap: () {
-                  Navigator.pushReplacement(
+                  Navigator.push(
                       context, MaterialPageRoute(builder: (_) => Ambulance()));
                 },
                 splashColor: Colors.cyanAccent,
@@ -107,7 +130,7 @@ class _HomePageState extends State<HomePage> {
               margin: EdgeInsets.all(8.0),
               child: InkWell(
                 onTap: () {
-                  Navigator.pushReplacement(
+                  Navigator.push(
                       context, MaterialPageRoute(builder: (_) => Breakdown()));
                 },
                 splashColor: Colors.cyanAccent,
@@ -130,7 +153,7 @@ class _HomePageState extends State<HomePage> {
               margin: EdgeInsets.all(8.0),
               child: InkWell(
                 onTap: () {
-                  Navigator.pushReplacement(
+                  Navigator.push(
                       context, MaterialPageRoute(builder: (_) => Accident()));
                 },
                 splashColor: Colors.cyanAccent,
@@ -153,7 +176,7 @@ class _HomePageState extends State<HomePage> {
               margin: EdgeInsets.all(8.0),
               child: InkWell(
                 onTap: () {
-                  Navigator.pushReplacement(
+                  Navigator.push(
                       context, MaterialPageRoute(builder: (_) => About()));
                 },
                 splashColor: Colors.cyanAccent,
@@ -176,7 +199,7 @@ class _HomePageState extends State<HomePage> {
               margin: EdgeInsets.all(8.0),
               child: InkWell(
                 onTap: () {
-                  Navigator.pushReplacement(
+                  Navigator.push(
                       context, MaterialPageRoute(builder: (_) => Help()));
                 },
                 splashColor: Colors.tealAccent,
@@ -199,7 +222,7 @@ class _HomePageState extends State<HomePage> {
               margin: EdgeInsets.all(8.0),
               child: InkWell(
                 onTap: () {
-                  Navigator.pushReplacement(
+                  Navigator.push(
                       context, MaterialPageRoute(builder: (_) => Location()));
                 },
                 splashColor: Colors.tealAccent,
@@ -224,20 +247,7 @@ class _HomePageState extends State<HomePage> {
       drawer: Drawer(
         child: ListView(
           children: <Widget>[
-            UserAccountsDrawerHeader(
-              accountName: Text('Brilly'),
-              accountEmail: Text('code@gmail.com'),
-              currentAccountPicture: CircleAvatar(
-                backgroundColor: Colors.amber,
-                child: Text('B'),
-              ),
-              otherAccountsPictures: <Widget>[
-                CircleAvatar(
-                  backgroundColor: Colors.white,
-                  child: Text('K'),
-                )
-              ],
-            ),
+            _buildUserAccountsDrawerHeader(),
             ListTile(
                 title: Text('K-Dharura'),
                 trailing: Icon(Icons.arrow_upward),
@@ -246,22 +256,22 @@ class _HomePageState extends State<HomePage> {
                 }),
             Divider(),
             ListTile(
-              title: Text('Contacts'),
+              title: Text('Contact us'),
               trailing: Icon(Icons.contacts),
               onTap: () {
                 Navigator.of(context).pop();
-                Navigator.pushReplacement(
+                Navigator.push(
                     context, MaterialPageRoute(builder: (_) => ContactUs()));
               },
             ),
             Divider(),
             ListTile(
-              title: Text('Settings'),
-              trailing: Icon(Icons.settings),
+              title: Text('ProfileScreen'),
+              trailing: Icon(Icons.person),
               onTap: () {
                 Navigator.of(context).pop();
-                Navigator.pushReplacement(
-                    context, MaterialPageRoute(builder: (_) => Settings()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => ProfileScreen()));
               },
             ),
             Divider(),
@@ -269,7 +279,7 @@ class _HomePageState extends State<HomePage> {
                 title: Text('Admin Area'),
                 trailing: Icon(Icons.arrow_upward),
                 onTap: () {
-                  Navigator.pushReplacement(context,
+                  Navigator.push(context,
                       MaterialPageRoute(builder: (context) => AdminPage()));
                 }),
             Divider(),
@@ -278,18 +288,8 @@ class _HomePageState extends State<HomePage> {
               trailing: Icon(Icons.feedback),
               onTap: () {
                 Navigator.of(context).pop();
-                Navigator.pushReplacement(
+                Navigator.push(
                     context, MaterialPageRoute(builder: (_) => Feeds()));
-              },
-            ),
-            Divider(),
-            ListTile(
-              title: Text('Login'),
-              trailing: Icon(Icons.person_pin),
-              onTap: () {
-                Navigator.of(context).pop();
-                Navigator.pushReplacement(
-                    context, MaterialPageRoute(builder: (_) => Login()));
               },
             ),
             Divider(),
