@@ -41,7 +41,7 @@ class _AddUserState extends State<AddUser> {
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
           icon: Icon(
-            Icons.add,
+            Icons.arrow_back,
           ),
         ),
       ),
@@ -57,7 +57,7 @@ class _AddUserState extends State<AddUser> {
                   if (value.isEmpty) {
                     return 'Value cannot be empty';
                   }
-                  return '';
+                  return null;
                 },
                 controller: nameController,
                 decoration: InputDecoration(
@@ -111,7 +111,9 @@ class _AddUserState extends State<AddUser> {
                   hintText: 'Enter role here',
                 ),
               ),
-
+              SizedBox(
+                height: 20.0,
+              ),
               //button tosubmit data
               RaisedButton(
                 onPressed: submit,

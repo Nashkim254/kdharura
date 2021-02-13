@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class About extends StatefulWidget {
@@ -21,12 +23,41 @@ class _AboutState extends State<About> {
     'O-'
   ];
   var _currentItemSelected = 'Blood Group A+';
-  void showSnackBar(BuildContext context) {
-    var snackBar = SnackBar(
-      content: Text('instances of the details have been created'),
-      action: SnackBarAction(label: 'ok', onPressed: null),
-    );
-    Scaffold.of(context).showSnackBar(snackBar);
+
+  TextEditingController nameController = TextEditingController();
+  TextEditingController dateController = TextEditingController();
+  TextEditingController diabeticController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
+  TextEditingController medicationController = TextEditingController();
+  TextEditingController allergyController = TextEditingController();
+
+  final DocumentReference documentReference =
+      FirebaseFirestore.instance.doc("medicalHistory/myMedicalHistory");
+  String userUid;
+
+  void getUserUid() {
+    User myUser = FirebaseAuth.instance.currentUser;
+    userUid = myUser.uid;
+  }
+
+  void medicalSubmit() {
+    if (_formKey.currentState.validate()) {
+      Map<String, String> meddata = <String, String>{
+        "allergy": allergyController.text,
+        "name": nameController.text,
+        "medication": medicationController.text,
+        "date": dateController.text,
+        "address": addressController.text,
+        "diabetis": diabeticController.text
+      };
+      documentReference.set(meddata).whenComplete(() {
+        print('Data added');
+      }).catchError((e) {
+        print(e);
+      });
+    } else {
+      return null;
+    }
   }
 
   @override
@@ -56,6 +87,7 @@ class _AboutState extends State<About> {
               padding: EdgeInsets.only(
                   top: _minimumPadding, bottom: _minimumPadding),
               child: TextFormField(
+                controller: nameController,
                 keyboardType: TextInputType.text,
                 style: TextStyle(),
                 validator: (value) =>
@@ -74,6 +106,7 @@ class _AboutState extends State<About> {
                 children: <Widget>[
                   Expanded(
                     child: TextFormField(
+                      controller: dateController,
                       keyboardType: TextInputType.datetime,
                       style: TextStyle(),
                       validator: (value) =>
@@ -107,6 +140,7 @@ class _AboutState extends State<About> {
                 padding: EdgeInsets.only(
                     top: _minimumPadding, bottom: _minimumPadding),
                 child: TextFormField(
+                  controller: addressController,
                   keyboardType: TextInputType.text,
                   style: TextStyle(),
                   validator: (value) =>
@@ -129,6 +163,7 @@ class _AboutState extends State<About> {
                 padding: EdgeInsets.only(
                     top: _minimumPadding, bottom: _minimumPadding),
                 child: TextFormField(
+                  controller: diabeticController,
                   keyboardType: TextInputType.text,
                   style: TextStyle(),
                   validator: (value) =>
@@ -143,6 +178,7 @@ class _AboutState extends State<About> {
                 padding: EdgeInsets.only(
                     top: _minimumPadding, bottom: _minimumPadding),
                 child: TextFormField(
+                  controller: medicationController,
                   keyboardType: TextInputType.text,
                   style: TextStyle(),
                   validator: (value) =>
@@ -158,6 +194,7 @@ class _AboutState extends State<About> {
                 padding: EdgeInsets.only(
                     top: _minimumPadding, bottom: _minimumPadding),
                 child: TextFormField(
+                  controller: allergyController,
                   keyboardType: TextInputType.text,
                   style: TextStyle(),
                   validator: (value) =>
@@ -182,7 +219,7 @@ class _AboutState extends State<About> {
                         textScaleFactor: 1.5,
                       ),
                       onPressed: () {
-                        showSnackBar(context);
+                        medicalSubmit();
                       },
                     ),
                   ),

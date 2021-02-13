@@ -30,14 +30,15 @@ class _FireState extends State<Fire> {
     userUid = myUser.uid;
   }
 
-  void send() async {
-    await FirebaseFirestore.instance
-        .collection('locationData')
-        .doc(userUid)
-        .set({
+  final DocumentReference documentReference =
+      FirebaseFirestore.instance.doc("requests/myRequests");
+  void send() {
+    Map<String, String> reqdata = <String, String>{
       "Location": locController.text,
       "request": reqController.text,
-    }).whenComplete(() {
+    };
+    documentReference.set(reqdata).whenComplete(() {
+      print('Data added');
       Future<void> _showMyDialog() async {
         return showDialog<void>(
             context: context,
@@ -56,6 +57,8 @@ class _FireState extends State<Fire> {
               );
             });
       }
+    }).catchError((e) {
+      print(e);
     });
   }
 

@@ -24,20 +24,20 @@ class _AmbulanceState extends State<Ambulance> {
   TextEditingController locController = TextEditingController();
   TextEditingController reqController = TextEditingController();
   String userUid;
-
   void getUserUid() {
     User myUser = FirebaseAuth.instance.currentUser;
     userUid = myUser.uid;
   }
 
-  void send() async {
-    await FirebaseFirestore.instance
-        .collection('locationData')
-        .doc(userUid)
-        .set({
+  final DocumentReference documentReference =
+      FirebaseFirestore.instance.doc("requests/myRequests");
+  void send() {
+    Map<String, String> reqdata = <String, String>{
       "Location": locController.text,
       "request": reqController.text,
-    }).whenComplete(() {
+    };
+    documentReference.set(reqdata).whenComplete(() {
+      print('Data added');
       Future<void> _showMyDialog() async {
         return showDialog<void>(
             context: context,
@@ -56,6 +56,8 @@ class _AmbulanceState extends State<Ambulance> {
               );
             });
       }
+    }).catchError((e) {
+      print(e);
     });
   }
 
