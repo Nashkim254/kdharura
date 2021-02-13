@@ -24,7 +24,7 @@ dependencies:
   cupertino_icons: ^0.1.2
   firebase_auth: null
   firebase_core: ^0.5.3
-  flutter_webview_plugin: ^0.3.10+1
+  flutter_webview_plugin: ^0.3.11
   google_maps_flutter: null
   image_picker: ^0.6.7+7
   firebase_storage: ^4.0.0

@@ -28,7 +28,7 @@ class _AddUserState extends State<AddUser> {
         'Name': nameController.text,
         'email': emailController.text,
         'password': passController.text,
-        'role': roleController.text
+        'role': roleController.text,
       });
     }
   }
