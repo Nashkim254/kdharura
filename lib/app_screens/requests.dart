@@ -24,7 +24,7 @@ class _UserRequestsState extends State<UserRequests> {
 
   StreamSubscription<DocumentSnapshot> streamSubscription;
 
-  //method to fetch data fromfirebase
+  //method to fetch data from firebase
 
   void fetch() {
     documentReference.get().then((datasnapshot) {

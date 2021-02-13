@@ -30,7 +30,8 @@ class _AdminPageState extends State<AdminPage> {
               margin: EdgeInsets.all(8.0),
               child: InkWell(
                 onTap: () {
-                  Navigator.pushReplacement(context,MaterialPageRoute(builder: (_)=>AddUser()));
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (_) => AddUser()));
                 },
                 child: Center(
                   child: Column(
@@ -52,21 +53,19 @@ class _AdminPageState extends State<AdminPage> {
                 ),
               ),
             ),
-             Card(
+            Card(
               margin: EdgeInsets.all(8.0),
               child: InkWell(
                 onTap: () {
-                  Navigator.pushReplacement(context,MaterialPageRoute(builder: (_)=>UserRequests()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (_) => UserRequests()));
                 },
                 child: Center(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(
-                        Icons.add,
-                        size: 70.0,
-                        color: Colors.lightGreen
-                      ),
+                      Icon(Icons.read_more,
+                          size: 70.0, color: Colors.lightGreen),
                       Text(
                         'User Requests',
                         style: TextStyle(
@@ -78,18 +77,19 @@ class _AdminPageState extends State<AdminPage> {
                 ),
               ),
             ),
-             Card(
+            Card(
               margin: EdgeInsets.all(8.0),
               child: InkWell(
                 onTap: () {
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>FeedBack()));
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (_) => FeedBack()));
                 },
                 child: Center(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(
-                        Icons.add,
+                        Icons.book,
                         size: 70.0,
                         color: Colors.lightBlue,
                       ),

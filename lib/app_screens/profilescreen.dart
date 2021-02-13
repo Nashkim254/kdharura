@@ -29,7 +29,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if (userName.text.isEmpty && phoneNumber.text.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(
         SnackBar(
-          content: Text("All Flied Are Empty"),
+          content: Text("All Fields Are Empty"),
         ),
       );
     } else if (userName.text.isEmpty) {

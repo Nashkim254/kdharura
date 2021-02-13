@@ -8,17 +8,11 @@ class AddUser extends StatefulWidget {
 }
 
 class _AddUserState extends State<AddUser> {
-
-
   //getting firestore instance
   FirebaseFirestore firestore;
 
-
-
   //Global key for validation
   final formKey = GlobalKey<FormState>();
-  
-
 
   //textEditing controllers
   TextEditingController nameController = TextEditingController();
@@ -26,13 +20,11 @@ class _AddUserState extends State<AddUser> {
   TextEditingController roleController = TextEditingController();
   TextEditingController passController = TextEditingController();
 
-
-
 //method to subit data
-  void submit() async{
+  void submit() async {
     UserCredential result;
     if (formKey.currentState.validate()) {
-    await  firestore.collection('userData').doc(result.user.uid).set({
+      await firestore.collection('userData').doc(result.user.uid).set({
         'Name': nameController.text,
         'email': emailController.text,
         'password': passController.text,
@@ -54,7 +46,7 @@ class _AddUserState extends State<AddUser> {
         ),
       ),
       body: Container(
-        margin: EdgeInsets.all(18.0),
+        margin: EdgeInsets.all(32.0),
         child: Form(
           key: formKey,
           child: Column(
@@ -120,11 +112,11 @@ class _AddUserState extends State<AddUser> {
                 ),
               ),
 
-
               //button tosubmit data
               RaisedButton(
                 onPressed: submit,
                 child: Text('Submit'),
+                color: ThemeData().primaryColor,
               ),
             ],
           ),

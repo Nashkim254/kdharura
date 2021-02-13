@@ -14,6 +14,7 @@ import 'package:dharura_app/models/user.dart';
 import 'package:dharura_app/provider/userprovider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -23,7 +24,6 @@ class HomePage extends StatefulWidget {
 ProductProvider productProvider;
 
 class _HomePageState extends State<HomePage> {
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   Widget _buildUserAccountsDrawerHeader() {
     List<UserModel> userModel = productProvider.userModelList;
     return Column(
@@ -45,12 +45,87 @@ class _HomePageState extends State<HomePage> {
     }).toList());
   }
 
+  Widget _buildMyDrawer() {
+    return Drawer(
+      child: ListView(
+        children: [
+          _buildUserAccountsDrawerHeader(),
+          ListTile(
+              title: Text('K-Dharura'),
+              trailing: Icon(Icons.arrow_upward),
+              onTap: () {
+                Navigator.pop(context);
+              }),
+          Divider(),
+          ListTile(
+            title: Text('Contact us'),
+            trailing: Icon(Icons.contacts),
+            onTap: () {
+              // Navigator.of(context).pop();
+              // Navigator.push(
+              //     context, MaterialPageRoute(builder: (_) => ContactUs()));
+            },
+          ),
+          Divider(),
+          ListTile(
+            title: Text('ProfileScreen'),
+            trailing: Icon(Icons.person),
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (_) => ProfileScreen()));
+            },
+          ),
+          Divider(),
+          ListTile(
+              title: Text('Admin Area'),
+              trailing: Icon(Icons.arrow_upward),
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => AdminPage()));
+              }),
+          Divider(),
+          ListTile(
+            title: Text('Feedback'),
+            trailing: Icon(Icons.feedback),
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (_) => Feeds()));
+            },
+          ),
+          Divider(),
+          ListTile(
+            title: Text('Close'),
+            trailing: Icon(Icons.close),
+            onTap: () => Navigator.of(context).pop(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
+  ThemeData lightmode = ThemeData(brightness: Brightness.light);
+  ThemeData darkmode = ThemeData(brightness: Brightness.dark);
+  bool isOn = false;
   @override
   Widget build(BuildContext context) {
+    productProvider = Provider.of<ProductProvider>(context);
+
     return Scaffold(
+      key: _key,
+      drawer: _buildMyDrawer(),
       appBar: AppBar(
         title: Text('Emergency Response App'),
         elevation: defaultTargetPlatform == TargetPlatform.android ? 5.0 : 0.0,
+        actions: [
+          Text('Light/Dark mode'),
+          Switch(
+            onChanged: (val) {},
+            value: isOn,
+          ),
+        ],
       ),
       body: Container(
         padding: EdgeInsets.all(30.0),
@@ -240,63 +315,6 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-            ),
-          ],
-        ),
-      ),
-      drawer: Drawer(
-        child: ListView(
-          children: <Widget>[
-            _buildUserAccountsDrawerHeader(),
-            ListTile(
-                title: Text('K-Dharura'),
-                trailing: Icon(Icons.arrow_upward),
-                onTap: () {
-                  Navigator.pop(context);
-                }),
-            Divider(),
-            ListTile(
-              title: Text('Contact us'),
-              trailing: Icon(Icons.contacts),
-              onTap: () {
-                Navigator.of(context).pop();
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (_) => ContactUs()));
-              },
-            ),
-            Divider(),
-            ListTile(
-              title: Text('ProfileScreen'),
-              trailing: Icon(Icons.person),
-              onTap: () {
-                Navigator.of(context).pop();
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (_) => ProfileScreen()));
-              },
-            ),
-            Divider(),
-            ListTile(
-                title: Text('Admin Area'),
-                trailing: Icon(Icons.arrow_upward),
-                onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => AdminPage()));
-                }),
-            Divider(),
-            ListTile(
-              title: Text('Feedback'),
-              trailing: Icon(Icons.feedback),
-              onTap: () {
-                Navigator.of(context).pop();
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (_) => Feeds()));
-              },
-            ),
-            Divider(),
-            ListTile(
-              title: Text('Close'),
-              trailing: Icon(Icons.close),
-              onTap: () => Navigator.of(context).pop(),
             ),
           ],
         ),

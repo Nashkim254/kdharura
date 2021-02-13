@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
@@ -22,8 +23,18 @@ class _FireState extends State<Fire> {
   GoogleMapController _controller;
   TextEditingController locController = TextEditingController();
   TextEditingController reqController = TextEditingController();
+  String userUid;
+
+  void getUserUid() {
+    User myUser = FirebaseAuth.instance.currentUser;
+    userUid = myUser.uid;
+  }
+
   void send() async {
-    await FirebaseFirestore.instance.collection('locationData').doc().set({
+    await FirebaseFirestore.instance
+        .collection('locationData')
+        .doc(userUid)
+        .set({
       "Location": locController.text,
       "request": reqController.text,
     }).whenComplete(() {
@@ -34,6 +45,14 @@ class _FireState extends State<Fire> {
               return AlertDialog(
                 title: Text('Request sent'),
                 content: Text('Response on the way'),
+                actions: [
+                  FlatButton(
+                    child: Text('OK'),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ],
               );
             });
       }
