@@ -88,38 +88,25 @@ class _FeedBackState extends State<FeedBack> {
                 child: title == null
                     ? Container()
                     : Container(
-                        height: 100,
+                        height: 200,
                         width: MediaQuery.of(context).size.width,
                         child: Center(
                           child: Card(
+                            color: Colors.grey,
                             elevation: 0.8,
-                            child: Center(
-                              child: Text(
-                                'Title:' + '' + title,
-                                style: TextStyle(fontSize: 20.0),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(8.0),
-                child: message == null
-                    ? Center(
-                        child: CircularProgressIndicator(),
-                      )
-                    : Container(
-                        height: 100,
-                        width: MediaQuery.of(context).size.width,
-                        child: Center(
-                          child: Card(
-                            elevation: 0.8,
-                            child: Center(
-                              child: Text(
-                                'Feedback:' + '' + message,
-                                style: TextStyle(fontSize: 20.0),
-                              ),
+                            child: Column(
+                              children: [
+                                Text(
+                                  'Title:' + '' + title,
+                                  style: TextStyle(fontSize: 20.0),
+                                ),
+                                message == null
+                                    ? Text('')
+                                    : Text(
+                                        'Feedback:' + '' + message,
+                                        style: TextStyle(fontSize: 20.0),
+                                      ),
+                              ],
                             ),
                           ),
                         ),

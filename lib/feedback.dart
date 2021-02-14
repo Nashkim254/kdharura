@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -9,11 +8,37 @@ class Feeds extends StatefulWidget {
 
 class _FeedsState extends State<Feeds> {
   final DocumentReference documentReference =
-  FirebaseFirestore.instance.doc('feedback/myfeedback');
+      FirebaseFirestore.instance.doc('feedback/myfeedback');
   TextEditingController titleController = TextEditingController();
   TextEditingController feedController = TextEditingController();
   String title;
   String feedback;
+
+  showAlertDialog(BuildContext context) {
+    // Create button
+    Widget okButton = FlatButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+    // Create AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("User Data"),
+      content: Text("User added"),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
 
   void _addFeed() {
     Map<String, String> feed = <String, String>{
@@ -22,6 +47,7 @@ class _FeedsState extends State<Feeds> {
     };
     documentReference.set(feed).whenComplete(() {
       print('document added');
+      showAlertDialog(context);
     }).catchError((e) {
       print(e);
     });
@@ -102,9 +128,7 @@ class _FeedsState extends State<Feeds> {
                     'Submit',
                     textScaleFactor: 1.5,
                   ),
-                  splashColor: Theme
-                      .of(context)
-                      .accentColor,
+                  splashColor: Theme.of(context).accentColor,
                 ),
               ),
             ]),

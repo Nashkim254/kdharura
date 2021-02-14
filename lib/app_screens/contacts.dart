@@ -50,10 +50,12 @@ class _ContactUsState extends State<ContactUs> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            name,
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
+          name == null
+              ? Text("")
+              : Text(
+                  name,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
         ],
       ),
     );

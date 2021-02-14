@@ -19,18 +19,51 @@ class _AddUserState extends State<AddUser> {
   TextEditingController emailController = TextEditingController();
   TextEditingController roleController = TextEditingController();
   TextEditingController passController = TextEditingController();
-
+  bool isLoading = false;
 //method to subit data
+  showAlertDialog(BuildContext context) {
+    // Create button
+    Widget okButton = FlatButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+    // Create AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("User Data"),
+      content: Text("User added"),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   void submit() async {
     UserCredential result;
-    if (formKey.currentState.validate()) {
-      await firestore.collection('userData').doc(result.user.uid).set({
-        'Name': nameController.text,
-        'email': emailController.text,
-        'password': passController.text,
-        'role': roleController.text,
-      });
-    }
+    setState(() {
+      isLoading = true;
+    });
+    FirebaseFirestore.instance.collection("User").doc(result.user.uid).set({
+      "UserName": nameController.text,
+      "UserId": result.user.uid,
+      "UserEmail": emailController.text,
+      "UserRole": roleController.text,
+      "UserPass": passController.text,
+    }).whenComplete(() {
+      showAlertDialog(context);
+    });
+    setState(() {
+      isLoading = false;
+    });
   }
 
   //build method

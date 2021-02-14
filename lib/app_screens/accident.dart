@@ -30,6 +30,32 @@ class _AccidentState extends State<Accident> {
     userUid = myUser.uid;
   }
 
+  showAlertDialog(BuildContext context) {
+    // Create button
+    Widget okButton = FlatButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+    // Create AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Request sent"),
+      content: Text("Response on the way"),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   final DocumentReference documentReference =
       FirebaseFirestore.instance.doc("requests/myRequests");
   void send() {
@@ -39,26 +65,7 @@ class _AccidentState extends State<Accident> {
     };
     documentReference.set(reqdata).whenComplete(() {
       print('Data added');
-      Future<void> _showMyDialog() async {
-        return showDialog<void>(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: Text('Request sent'),
-                content: Text('Response on the way'),
-                actions: [
-                  FlatButton(
-                    child: Text('OK'),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                ],
-              );
-            });
-      }
-    }).catchError((e) {
-      print(e);
+      showAlertDialog(context);
     });
   }
 

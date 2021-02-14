@@ -85,8 +85,8 @@ class _HomePageState extends State<HomePage> {
                 profileColor = false;
                 aboutColor = false;
               });
-              Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (ctx) => AdminPage()));
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (ctx) => AdminPage()));
             },
             leading: Icon(Icons.person),
             title: Text("Admin page"),
@@ -101,10 +101,10 @@ class _HomePageState extends State<HomePage> {
                 profileColor = false;
                 checkoutColor = false;
               });
-              Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (ctx) => About()));
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (ctx) => About()));
             },
-            leading: Icon(Icons.info),
+            leading: Icon(Icons.help),
             title: Text("About"),
           ),
           ListTile(
@@ -117,7 +117,7 @@ class _HomePageState extends State<HomePage> {
                 profileColor = true;
                 checkoutColor = false;
               });
-              Navigator.of(context).pushReplacement(
+              Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (ctx) => ProfileScreen(),
                 ),
@@ -136,8 +136,8 @@ class _HomePageState extends State<HomePage> {
                 homeColor = false;
                 aboutColor = false;
               });
-              Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (ctx) => ContactUs()));
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (ctx) => ContactUs()));
             },
             leading: Icon(Icons.phone),
             title: Text("Contant Us"),
@@ -152,10 +152,10 @@ class _HomePageState extends State<HomePage> {
                 homeColor = false;
                 aboutColor = false;
               });
-              Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (ctx) => Feeds()));
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (ctx) => Feeds()));
             },
-            leading: Icon(Icons.phone),
+            leading: Icon(Icons.book_online_outlined),
             title: Text("Feedback"),
           ),
           ListTile(
@@ -186,7 +186,7 @@ class _HomePageState extends State<HomePage> {
         drawer: _buildMyDrawer(),
         appBar: AppBar(
           title: Text(
-            'Emergency Response App',
+            'Kdharura',
             style: TextStyle(fontSize: 18.0),
           ),
           elevation:
