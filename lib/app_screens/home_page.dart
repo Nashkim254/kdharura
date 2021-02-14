@@ -12,7 +12,7 @@ import 'package:dharura_app/app_screens/profilescreen.dart';
 import 'package:dharura_app/feedback.dart';
 import 'package:dharura_app/models/user.dart';
 import 'package:dharura_app/provider/userprovider.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:dharura_app/services/usermanagement.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -85,8 +85,7 @@ class _HomePageState extends State<HomePage> {
                 profileColor = false;
                 aboutColor = false;
               });
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (ctx) => AdminPage()));
+              Usermanagement().authorizeAccess(context);
             },
             leading: Icon(Icons.person),
             title: Text("Admin page"),
@@ -160,7 +159,7 @@ class _HomePageState extends State<HomePage> {
           ),
           ListTile(
             onTap: () {
-              FirebaseAuth.instance.signOut();
+              Usermanagement().signOut();
             },
             leading: Icon(Icons.exit_to_app),
             title: Text("Logout"),
