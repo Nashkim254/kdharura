@@ -1,6 +1,5 @@
 import 'package:dharura_app/app_screens/about.dart';
 import 'package:dharura_app/app_screens/accident.dart';
-import 'package:dharura_app/app_screens/admin_page.dart';
 import 'package:dharura_app/app_screens/aid.dart';
 import 'package:dharura_app/app_screens/ambulance.dart';
 import 'package:dharura_app/app_screens/breakdown.dart';
@@ -101,7 +100,7 @@ class _HomePageState extends State<HomePage> {
                 checkoutColor = false;
               });
               Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (ctx) => About()));
+                  .push(MaterialPageRoute(builder: (ctx) => Help()));
             },
             leading: Icon(Icons.help),
             title: Text("About"),

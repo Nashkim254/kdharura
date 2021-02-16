@@ -13,17 +13,6 @@ class Help extends StatelessWidget {
         appBar: AppBar(
           elevation: 0.0,
           backgroundColor: Color(0xfff8f8f8),
-          title: IconButton(
-            icon: Icon(
-              Icons.arrow_back,
-              color: Color(0xff746bc9),
-              size: 35,
-            ),
-            onPressed: () {
-              Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (ctx) => HomePage()));
-            },
-          ),
         ),
         body: Container(
           padding: EdgeInsets.symmetric(horizontal: 27),
