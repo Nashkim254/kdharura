@@ -59,7 +59,6 @@ class _FeedsState extends State<Feeds> {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(brightness: Brightness.dark),
       home: Scaffold(
-        resizeToAvoidBottomPadding: false,
         appBar: AppBar(
           leading: IconButton(
             icon: Icon(Icons.arrow_back_ios),
