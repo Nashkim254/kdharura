@@ -3,9 +3,6 @@ import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
 
 class Aid extends StatelessWidget {
-  final String title;
-  Aid(this.title);
-
   @override
   Widget build(BuildContext context) {
     return WebviewScaffold(
@@ -17,9 +14,7 @@ class Aid extends StatelessWidget {
       withLocalStorage: true,
     );
 
-
   }
-
 
 }
 
